@@ -17,7 +17,7 @@ describe('API:Routes', () => {
 
   describe('[GET] /exchange-rates', () => {
     it('returns 200 OK with uptime', async () => {
-      jest.mock('../../services/rates')
+      vi.mock('../../services/rates')
       const response = await api.get('/exchange-rates')
 
       expect(response.statusCode).toBe(200)
@@ -27,9 +27,10 @@ describe('API:Routes', () => {
     })
 
     it('returns 500 UNKNOWN_ERROR', async () => {
-      jest
-        .spyOn(await import('../../services/rates'), 'getExchangeRates')
-        .mockRejectedValue({})
+      vi.spyOn(
+        await import('../../services/rates'),
+        'getExchangeRates',
+      ).mockRejectedValue({})
       const response = await api.get('/exchange-rates')
 
       expect(response.statusCode).toBe(500)
